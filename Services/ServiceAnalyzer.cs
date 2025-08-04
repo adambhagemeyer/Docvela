@@ -45,10 +45,14 @@ public class ServiceAnalyzer
                 var symbol = model.GetDeclaredSymbol(method) as IMethodSymbol;
                 if (symbol == null) continue;
 
+                var xmlDoc = symbol.GetDocumentationCommentXml() ?? "";
+                var summary = RoslynHelpers.GetSummaryFromXmlDoc(xmlDoc);
+
                 var methodData = new ServiceMethodData
                 {
                     MethodName = method.Identifier.Text,
-                    ReturnType = RoslynHelpers.GetFullTypeName(symbol.ReturnType)
+                    ReturnType = RoslynHelpers.GetFullTypeName(symbol.ReturnType),
+                    Summary = summary  // add this line
                 };
 
                 // Parameters

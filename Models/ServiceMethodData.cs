@@ -7,4 +7,5 @@ public class ServiceMethodData
     public List<ParameterData> Parameters { get; set; } = new();
     public List<string> InternalCalls { get; set; } = new();
     public List<string> ReturnStatements { get; set; } = new();
+    public string Summary { get; set; } = "";
 }

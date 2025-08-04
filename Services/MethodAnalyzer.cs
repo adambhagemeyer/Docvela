@@ -59,12 +59,16 @@ namespace Docvela.Services
                                       .FirstOrDefault(attr => attr.Name.ToString().StartsWith("Http"));
                     if (httpAttr == null) continue;
 
+                    var xmlDoc = symbol.GetDocumentationCommentXml() ?? "";
+                    var summary = RoslynHelpers.GetSummaryFromXmlDoc(xmlDoc);
+
                     var endpoint = new EndpointData
                     {
                         HttpMethod = httpAttr.Name.ToString(),
                         Route = method.AttributeLists.SelectMany(x => x.Attributes)
                                     .FirstOrDefault(a => a.ArgumentList != null)?.ArgumentList?.Arguments.ToString() ?? "",
-                        MethodSignature = method.Identifier + "()"
+                        MethodSignature = method.Identifier + "()",
+                        Summary = summary  // add this line
                     };
 
                     foreach (var param in symbol.Parameters)

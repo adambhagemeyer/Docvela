@@ -32,6 +32,10 @@ public class MarkdownReportGenerator
             foreach (var endpoint in controller.Endpoints)
             {
                 writer.WriteLine($"### {endpoint.HttpMethod} {endpoint.MethodSignature}");
+                if (!string.IsNullOrWhiteSpace(endpoint.Summary))
+                {
+                    writer.WriteLine($"> {endpoint.Summary}\n");
+                }
                 if (!string.IsNullOrWhiteSpace(endpoint.Route))
                     writer.WriteLine($"- **Route:** `{endpoint.Route}`");
 
@@ -132,6 +136,10 @@ public class MarkdownReportGenerator
             foreach (var method in nonEmptyMethods)
             {
                 writer.WriteLine($"### {method.MethodName}()");
+                if (!string.IsNullOrWhiteSpace(method.Summary))
+                {
+                    writer.WriteLine($"> {method.Summary}\n");
+                }
                 writer.WriteLine($"- Returns: `{method.ReturnType}`");
 
                 if (method.Parameters.Any())
@@ -154,6 +162,7 @@ public class MarkdownReportGenerator
                     foreach (var ret in method.ReturnStatements)
                         writer.WriteLine($"  - `{ret}`");
                 }
+
 
                 writer.WriteLine();
             }
